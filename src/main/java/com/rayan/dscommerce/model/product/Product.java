@@ -1,9 +1,12 @@
 package com.rayan.dscommerce.model.product;
 
 import com.rayan.dscommerce.model.category.Category;
+import com.rayan.dscommerce.model.order.Order;
+import com.rayan.dscommerce.model.orderitem.OrderItem;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +35,9 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private final Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {}
 
@@ -85,5 +91,13 @@ public class Product {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public List<Order> getOrders() {
+        return this.items.stream().map(OrderItem::getOrder).toList();
     }
 }

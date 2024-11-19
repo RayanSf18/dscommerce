@@ -1,12 +1,17 @@
 package com.rayan.dscommerce.model.order;
 
 import com.rayan.dscommerce.model.OrderStatus;
+import com.rayan.dscommerce.model.orderitem.OrderItem;
 import com.rayan.dscommerce.model.payment.Payment;
+import com.rayan.dscommerce.model.product.Product;
 import com.rayan.dscommerce.model.user.User;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_orders")
@@ -29,6 +34,9 @@ public class Order {
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Payment payment;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {}
 
@@ -78,5 +86,13 @@ public class Order {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public List<Product> getProducts() {
+        return this.items.stream().map(OrderItem::getProduct).toList();
     }
 }
