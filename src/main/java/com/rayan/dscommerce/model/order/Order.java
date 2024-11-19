@@ -2,15 +2,24 @@ package com.rayan.dscommerce.model.order;
 
 import com.rayan.dscommerce.model.OrderStatus;
 import com.rayan.dscommerce.model.user.User;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
+@Entity
+@Table(name = "tb_orders")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @CreationTimestamp
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     private User client;
