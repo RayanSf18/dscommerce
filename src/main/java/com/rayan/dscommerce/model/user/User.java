@@ -1,4 +1,4 @@
-package com.rayan.dscommerce.model;
+package com.rayan.dscommerce.model.user;
 
 import jakarta.persistence.*;
 
