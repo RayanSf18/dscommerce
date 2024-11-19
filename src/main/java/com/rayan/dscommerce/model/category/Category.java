@@ -1,6 +1,10 @@
 package com.rayan.dscommerce.model.category;
 
+import com.rayan.dscommerce.model.product.Product;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_categories")
@@ -12,6 +16,9 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    private final Set<Product> products = new HashSet<>();
 
     public Category() {}
 
@@ -34,5 +41,9 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
     }
 }
