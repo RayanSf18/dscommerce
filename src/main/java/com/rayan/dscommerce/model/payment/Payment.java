@@ -1,8 +1,14 @@
 package com.rayan.dscommerce.model.payment;
 
 import com.rayan.dscommerce.model.order.Order;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 import java.time.Instant;
 import java.util.Objects;
