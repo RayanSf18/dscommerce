@@ -40,4 +40,14 @@ public class ProductService {
         return this.productMapper.toProductDTO(this.productRepository.save(product));
     }
 
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) {
+        Product product = this.productRepository.findById(id).get();
+        product.setName(dto.name());
+        product.setDescription(dto.description());
+        product.setPrice(dto.price());
+        product.setImgUrl(dto.imgUrl());
+        return this.productMapper.toProductDTO(this.productRepository.save(product));
+    }
+
 }

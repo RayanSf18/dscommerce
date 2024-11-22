@@ -25,7 +25,6 @@ public class ProductMapper {
         }
 
         return new Product(
-                null,
                 dto.name(),
                 dto.description(),
                 dto.price(),

@@ -51,8 +51,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id, String name, String description, Double price, String imgUrl) {
-        this.id = id;
+    public Product(String name, String description, Double price, String imgUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -121,5 +120,15 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                '}';
     }
 }
