@@ -14,8 +14,22 @@ public class ProductMapper {
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
-                entity.getPrice(),
-                entity.getImgUrl()
+                entity.getImgUrl(),
+                entity.getPrice()
+        );
+    }
+
+    public Product toProduct(ProductDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        return new Product(
+                null,
+                dto.name(),
+                dto.description(),
+                dto.price(),
+                dto.imgUrl()
         );
     }
 }

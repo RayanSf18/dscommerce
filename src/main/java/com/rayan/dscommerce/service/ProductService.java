@@ -34,4 +34,10 @@ public class ProductService {
         return this.productRepository.findAll(pageable).map(productMapper::toProductDTO);
     }
 
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+        Product product = this.productMapper.toProduct(dto);
+        return this.productMapper.toProductDTO(this.productRepository.save(product));
+    }
+
 }
