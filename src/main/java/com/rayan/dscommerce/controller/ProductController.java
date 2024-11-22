@@ -4,8 +4,11 @@ import com.rayan.dscommerce.model.product.ProductDTO;
 import com.rayan.dscommerce.service.ProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -19,18 +22,23 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ProductDTO findById(@PathVariable Long id) {
-        return this.productService.findById(id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(this.productService.findById(id));
     }
 
     @GetMapping
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        return this.productService.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
+        return ResponseEntity.ok().body(this.productService.findAll(pageable));
     }
 
     @PostMapping
-    public ProductDTO insert(@RequestBody ProductDTO dto) {
-        return this.productService.insert(dto);
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+        dto = this.productService.insert(dto);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(dto.id())
+                .toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
-
 }
