@@ -50,4 +50,8 @@ public class ProductService {
         return this.productMapper.toProductDTO(this.productRepository.save(product));
     }
 
+    @Transactional
+    public void deleteById(Long id) {
+        this.productRepository.deleteById(id);
+    }
 }
