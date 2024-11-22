@@ -4,13 +4,14 @@ import com.rayan.dscommerce.model.product.Product;
 import com.rayan.dscommerce.model.product.ProductDTO;
 import com.rayan.dscommerce.model.product.ProductMapper;
 import com.rayan.dscommerce.repository.ProductRepository;
+import com.rayan.dscommerce.service.exception.DatabaseException;
+import com.rayan.dscommerce.service.exception.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -25,7 +26,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Product productDb = this.productRepository.findById(id).get();
+        Product productDb = this.productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource with ID=" + id + " not found"));
         return this.productMapper.toProductDTO(productDb);
     }
 
@@ -42,7 +43,7 @@ public class ProductService {
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-        Product product = this.productRepository.findById(id).get();
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource with ID=" + id + " not found"));
         product.setName(dto.name());
         product.setDescription(dto.description());
         product.setPrice(dto.price());
@@ -50,8 +51,19 @@ public class ProductService {
         return this.productMapper.toProductDTO(this.productRepository.save(product));
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteById(Long id) {
-        this.productRepository.deleteById(id);
+        if (!this.productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Resource with ID= " + id + " not found");
+        }
+        try {
+            this.productRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Referential integrity failure");
+        }
+
+        Product product = this.productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource with ID=" + id + " not found"));
+        this.productRepository.deleteById(product.getId());
     }
 }
