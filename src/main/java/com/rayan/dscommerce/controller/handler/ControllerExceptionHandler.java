@@ -3,9 +3,12 @@ package com.rayan.dscommerce.controller.handler;
 import com.rayan.dscommerce.service.exception.CustomError;
 import com.rayan.dscommerce.service.exception.DatabaseException;
 import com.rayan.dscommerce.service.exception.ResourceNotFoundException;
+import com.rayan.dscommerce.service.exception.ValidationError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -35,6 +38,23 @@ public class ControllerExceptionHandler {
                 exception.getMessage(),
                 request.getRequestURI()
         );
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomError> handlerMethodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        ValidationError error = new ValidationError(
+                Instant.now(),
+                status.value(),
+                "Invalid data",
+                request.getRequestURI()
+        );
+
+        for (FieldError fieldError : exception.getFieldErrors()) {
+            error.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+
         return ResponseEntity.status(status).body(error);
     }
 }
