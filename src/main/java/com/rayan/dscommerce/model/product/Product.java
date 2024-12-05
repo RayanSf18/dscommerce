@@ -3,7 +3,16 @@ package com.rayan.dscommerce.model.product;
 import com.rayan.dscommerce.model.category.Category;
 import com.rayan.dscommerce.model.order.Order;
 import com.rayan.dscommerce.model.orderitem.OrderItem;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.HashSet;
 import java.util.List;
@@ -42,8 +51,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long id, String name, String description, Double price, String imgUrl) {
-        this.id = id;
+    public Product(String name, String description, Double price, String imgUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -112,5 +120,15 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

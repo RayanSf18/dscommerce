@@ -1,12 +1,20 @@
 package com.rayan.dscommerce.model.order;
 
-import com.rayan.dscommerce.model.OrderStatus;
 import com.rayan.dscommerce.model.orderitem.OrderItem;
 import com.rayan.dscommerce.model.payment.Payment;
 import com.rayan.dscommerce.model.product.Product;
 import com.rayan.dscommerce.model.user.User;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 import java.time.Instant;
 import java.util.HashSet;
