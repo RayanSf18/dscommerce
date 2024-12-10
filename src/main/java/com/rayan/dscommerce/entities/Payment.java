@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 import java.time.Instant;
@@ -20,7 +22,8 @@ public class Payment {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant moment;
 
-
+    @MapsId
+    @OneToOne
     private Order order;
 
     public Payment() {
@@ -56,4 +59,6 @@ public class Payment {
     public void setOrder(Order order) {
         this.order = order;
     }
+
+
 }
