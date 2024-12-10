@@ -1,15 +1,25 @@
 package com.rayan.dscommerce.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tb_product")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false)
     private Double price;
 
+    @Column(name = "img_url")
     private String imgUrl;
 
     public Product() {
