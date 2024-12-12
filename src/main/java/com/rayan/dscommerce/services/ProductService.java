@@ -19,15 +19,9 @@ public class ProductService {
 
     @Transactional
     public ProductDTO saveProduct(ProductDTO productDTO) {
-
         Product entity = new Product();
-        entity.setName(productDTO.getName());
-        entity.setPrice(productDTO.getPrice());
-        entity.setImgUrl(productDTO.getImgUrl());
-        entity.setDescription(productDTO.getDescription());
-
+        mapperDtoToEntity(productDTO, entity);
         entity = this.productRepository.save(entity);
-
         return new ProductDTO(entity);
 
     }
@@ -42,5 +36,21 @@ public class ProductService {
     public Page<ProductDTO> searchProducts(Pageable pageable) {
         Page<Product> result = this.productRepository.findAll(pageable);
         return result.map(ProductDTO::new);
+    }
+
+    @Transactional
+    public ProductDTO updateProduct(Long productId, ProductDTO productDTO) {
+        Product entity = this.productRepository.getReferenceById(productId);
+        mapperDtoToEntity(productDTO, entity);
+        entity = this.productRepository.save(entity);
+        return new ProductDTO(entity);
+
+    }
+
+    private void mapperDtoToEntity(ProductDTO productDTO, Product entity) {
+        entity.setName(productDTO.getName());
+        entity.setPrice(productDTO.getPrice());
+        entity.setImgUrl(productDTO.getImgUrl());
+        entity.setDescription(productDTO.getDescription());
     }
 }
