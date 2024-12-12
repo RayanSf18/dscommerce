@@ -47,6 +47,11 @@ public class ProductService {
 
     }
 
+    @Transactional
+    public void deleteProductById(Long productId) {
+        this.productRepository.deleteById(productId);
+    }
+
     private void mapperDtoToEntity(ProductDTO productDTO, Product entity) {
         entity.setName(productDTO.getName());
         entity.setPrice(productDTO.getPrice());
