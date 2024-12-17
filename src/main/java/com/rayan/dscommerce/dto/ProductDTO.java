@@ -1,13 +1,25 @@
 package com.rayan.dscommerce.dto;
 
 import com.rayan.dscommerce.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
     private Long id;
+
+    @Size(min = 3, max = 80, message = "The name field must have a minimum of 3 to 80 characters")
+    @NotBlank(message = "Required field")
     private String name;
+
+    @Size(min = 10, message = "The name field must have a minimum of 3 characters")
+    @NotBlank(message = "Required field")
     private String description;
+
+    @Positive(message = "The price field needs to be positive")
     private Double price;
+
     private String imgUrl;
 
     public ProductDTO() {
