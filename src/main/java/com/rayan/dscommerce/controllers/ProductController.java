@@ -1,7 +1,6 @@
 package com.rayan.dscommerce.controllers;
 
 import com.rayan.dscommerce.dtos.ProductDTO;
-import com.rayan.dscommerce.entities.Product;
 import com.rayan.dscommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -43,5 +41,11 @@ public class ProductController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
         return ResponseEntity.ok().body(this.productService.update(id, dto));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        this.productService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
