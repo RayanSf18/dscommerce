@@ -1,5 +1,6 @@
 package com.rayan.dscommerce.dtos;
 
+import com.rayan.dscommerce.entities.Product;
 import jakarta.persistence.Column;
 
 public class ProductDTO {
@@ -19,6 +20,14 @@ public class ProductDTO {
         this.description = description;
         this.price = price;
         this.imgUrl = imgUrl;
+    }
+
+    public ProductDTO(Product entity) {
+        this.id = entity.getId();
+        this.name = entity.getName();
+        this.description = entity.getDescription();
+        this.price = entity.getPrice();
+        this.imgUrl = entity.getImgUrl();
     }
 
     public Long getId() {
